@@ -6,9 +6,9 @@ const TableBody = ({ products, onSort, iconsSort }) => {
   
   return (
     <div className="flex-grow-1 m-2">
-      <div className="d-flex flex-row justify-content-center align-items-center">
+      <div className="d-flex  justify-content-center align-items-center">
         <p>Сортировать по цене   </p>
-        <button onClick ={onSort} type="button" className="btn btn-light m-10">{iconsSort()}</button>
+        <button onClick ={onSort} type="button" className="btn btn-light">{iconsSort()}</button>
       </div>
       <ul className="list-group">
         {products.map((item) => (
