@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TextField from "../components/textField";
 import { validator } from "../utils/validator"
-import { Link } from "react-router-dom";
-const Login = () => {
+const Registration = () => {
     const [data, setData] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({});
     const handleChange = ({ target }) => {
@@ -55,7 +54,7 @@ const Login = () => {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
-                    <h3 className="mb-4">Login</h3>
+                    <h3 className="mb-4">Регистрация</h3>
                     <form onSubmit={handleSubmit}>
                         <TextField
                             label="Электронная почта"
@@ -73,17 +72,12 @@ const Login = () => {
                             error={errors.password}
                         />
                         <button type="submit" disabled={!isValid} className="btn btn-primary w-100 mx-auto">
-                            Submit
+                            Зарегистрироваться
                         </button>
-                        <Link className="nav-link active" aria-current="page" to="/registration">
-                            <div className=" d-flex justify-content-center pt-2">
-                                <h6>Зарегистрироваться</h6> 
-                            </div>
-                        </Link>
                     </form>
                 </div>
             </div>
         </div>
     );
 };
-export default Login;
+export default Registration;

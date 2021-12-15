@@ -1,9 +1,10 @@
 import React from "react";
 import NavBar from "./components/navBar";
-import Products from "./layouts/mainPage";
 import { Route, Switch } from "react-router-dom";
 import Login from "./layouts/login";
-import ProductPage from "./components/productPage";
+import MainPage from "./layouts/mainPage";
+import Registration from "./layouts/registration";
+import AdminPage from "./layouts/adminPage";
 
 function App() {
   return (
@@ -11,8 +12,9 @@ function App() {
       <NavBar />
       <Switch>
         <Route path="/login" component={Login} />
-        <Route path="/products/:productId" component={ProductPage} />
-        <Route path="/" component={Products} />
+        <Route path="/registration" component={Registration} />
+        <Route path="/admin" component={AdminPage} />
+        <Route path="/" component={MainPage} />
       </Switch>
     </>
   );

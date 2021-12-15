@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import api from "../api";
 
-const ProductPage = ({ match }) => {
+const ProductPage = ({ match, putInTheBasket }) => {
   const id = match.params.productId;
   const [product, setProduct] = useState();
   useEffect(() => {
     api.products.getById(id).then((data) => setProduct(data));
   });
-  console.log(product);
   if (product) {
     return (
       <div className="container mt-5 shadow">
@@ -23,13 +22,13 @@ const ProductPage = ({ match }) => {
           <div className="col-md-6 p-2 d-flex align-items-center  ">
             <div>
               <h2>{product.name}</h2>
-              <h4>1</h4>
+              <h4>{product.countProduct} шт.</h4>
               <h4>{product.cost} руб</h4>
             </div>
           </div>
           <div className="col-md-2 p-2 d-flex  justify-content-center align-content-between">
             <div className="d-flex align-items-center">
-              <button type="button" className="btn btn-primary">
+              <button type="button" className="btn btn-primary" onClick={()=>{putInTheBasket(product)}}>
                 Купить
               </button>
             </div>
