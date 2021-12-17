@@ -14,7 +14,7 @@ const NavBar = () => {
       <h4 className="m-2">Online store </h4>
       <div className="d-flex flex-row">
         <Link className="nav-link active" aria-current="page" to="/admin">
-          Адм.
+          Админ.
         </Link>
         <Link className="nav-link" to="/login">
           Вход/Регистрация

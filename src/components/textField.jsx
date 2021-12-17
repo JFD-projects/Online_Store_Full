@@ -10,7 +10,7 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
         setShowPassword((prevState) => !prevState);
     };
     return (
-        <div className="mb-4">
+        <div className="mb-3">
             <label htmlFor={name}>{label}</label>
             <div className="input-group has-validation">
                 <input
@@ -46,7 +46,7 @@ TextField.propTypes = {
     label: PropTypes.string,
     type: PropTypes.string,
     name: PropTypes.string,
-    value: PropTypes.string,
+    value:  PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
     error: PropTypes.string
 };

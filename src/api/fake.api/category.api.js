@@ -10,5 +10,6 @@ const fetchAll = () =>
       resolve(category);
     }, 1000);
   });
+const prt = { fetchAll }
 
-export default { fetchAll };
+export default prt;

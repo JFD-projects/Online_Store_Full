@@ -112,9 +112,9 @@ const getById = (productId) => new Promise((resolve)=>{
   })
 }, 1000)
 
+const pr = {fetchAll,
+  getById}
 
 
-export default {
-  fetchAll,
-  getById
-};
+
+export default pr;

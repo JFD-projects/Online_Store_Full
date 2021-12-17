@@ -4,7 +4,7 @@ import SearchForm from "../components/searchForm";
 import BasketIcons from "../components/basketIcons";
 import _ from "lodash";
 import { paginate } from "../utils/paginate";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch, Link, useHistory } from "react-router-dom";
 import ProductPage from "../components/productPage";
 import Products from "../components/products";
 import Basket from "../components/basket";
@@ -19,11 +19,11 @@ function MainPage() {
   const [currentPage, setCurrentPage] = useState(1); // выбранная страница
   const [basket, setBasket] = useState([]); //продукты в корзине
   const pageSize = 5; // кол-во товара на странице
+  const history = useHistory()
   let foundProduct = ""; // найденные продукты
   useEffect(() => {
     api.products.fetchAll().then((data) => setProducts(data));
   }, []);
-
   useEffect(() => {
     api.category.fetchAll().then((data) => setCategory(data));
   }, []);
@@ -81,8 +81,9 @@ function MainPage() {
     setCurrentPage(pageIndex);
   };
   const putInTheBasket = (item) => {
-    // положить в корзину
+    // положить в корзину 
     if(!basket.some((c)=>c.product._id===item._id)){setBasket([...basket, { value: 1, product: item }])};
+    history.push("/products")
   };
   const handleIncrement = (productId) => {//корзина увеличение кол-ва продукта
     const newBasket = [...basket];
