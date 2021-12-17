@@ -1,15 +1,13 @@
 import React from "react";
 import ProductCard from "./productCard";
+import SortCost from "./sortCost";
 
 const TableBody = ({ products, onSort, iconsSort }) => {
   
   
   return (
     <div className="flex-grow-1 m-2">
-      <div className="d-flex  justify-content-center align-items-center">
-        <p>Сортировать по цене   </p>
-        <button onClick ={onSort} type="button" className="btn btn-light">{iconsSort()}</button>
-      </div>
+      <SortCost onSort={onSort} iconsSort={iconsSort}/>
       <ul className="list-group">
         {products.map((item) => (
           <li className="list-group-item" key={item._id}>

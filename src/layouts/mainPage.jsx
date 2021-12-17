@@ -19,7 +19,7 @@ function MainPage() {
   const [currentPage, setCurrentPage] = useState(1); // выбранная страница
   const [basket, setBasket] = useState([]); //продукты в корзине
   const pageSize = 5; // кол-во товара на странице
-  const history = useHistory()
+  const history = useHistory();
   let foundProduct = ""; // найденные продукты
   useEffect(() => {
     api.products.fetchAll().then((data) => setProducts(data));
@@ -51,13 +51,15 @@ function MainPage() {
     setSearchProduct(e.target.value.toLowerCase());
     setSelectedProf();
   };
-  const handleSearchProduct = (params) => {
-    foundProduct = products.filter((item) =>
-      item.name.toLowerCase().includes(searchProduct)
-    );
-    setSearch(foundProduct);
+  const handleSearchProduct = () => {
+    //поиск продукта
+    if (searchProduct) {
+      foundProduct = products.filter((item) =>
+        item.name.toLowerCase().includes(searchProduct)
+      );
+      setSearch(foundProduct);
+    }
   };
-
   const handleSort = () => {
     //сортировка по цене
     if (sortBy.iter === "") {
@@ -81,31 +83,48 @@ function MainPage() {
     setCurrentPage(pageIndex);
   };
   const putInTheBasket = (item) => {
-    // положить в корзину 
-    if(!basket.some((c)=>c.product._id===item._id)){setBasket([...basket, { value: 1, product: item }])};
-    history.push("/products")
+    // положить в корзину
+    if (!basket.some((c) => c.product._id === item._id)) {
+      setBasket([...basket, { value: 1, product: item }]);
+    }
+    history.push("/products");
   };
-  const handleIncrement = (productId) => {//корзина увеличение кол-ва продукта
+  const handleIncrement = (productId) => {
+    //корзина увеличение кол-ва продукта
     const newBasket = [...basket];
-    const elementIndex = newBasket.findIndex((c)=>c.product._id===productId);
-    if (newBasket[elementIndex].value<newBasket[elementIndex].product.countProduct){newBasket[elementIndex].value++};
-    setBasket(newBasket); 
-
+    const elementIndex = newBasket.findIndex(
+      (c) => c.product._id === productId
+    );
+    if (
+      newBasket[elementIndex].value <
+      newBasket[elementIndex].product.countProduct
+    ) {
+      newBasket[elementIndex].value++;
+    }
+    setBasket(newBasket);
   };
-  const handleDecrement = (productId) => {//корзина уменьшение кол-ва продукта
+  const handleDecrement = (productId) => {
+    //корзина уменьшение кол-ва продукта
     const newBasket = [...basket];
-    const elementIndex = newBasket.findIndex((c)=>c.product._id===productId);
-    if (newBasket[elementIndex].value>1){newBasket[elementIndex].value--};
-    setBasket(newBasket); 
+    const elementIndex = newBasket.findIndex(
+      (c) => c.product._id === productId
+    );
+    if (newBasket[elementIndex].value > 1) {
+      newBasket[elementIndex].value--;
+    }
+    setBasket(newBasket);
   };
-  const handleBasketDelete = (productId) => {//корзина удаление продукта
-    const newBasket = basket.filter((c)=>c.product._id!==productId);
+  const handleBasketDelete = (productId) => {
+    //корзина удаление продукта
+    const newBasket = basket.filter((c) => c.product._id !== productId);
     setBasket(newBasket);
   };
   const handleBasketClear = () => {
-    setBasket([])
-  }
-  const basketCount = basket.reduce((acc, item)=>{return acc + item.value},0)
+    setBasket([]);
+  };
+  const basketCount = basket.reduce((acc, item) => {
+    return acc + item.value;
+  }, 0);
 
   if (products) {
     const filteredProducts = selectedProf
