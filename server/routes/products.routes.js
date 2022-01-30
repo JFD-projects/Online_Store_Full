@@ -2,7 +2,9 @@ const express = require("express");
 const Products = require("../models/Products");
 const router = express.Router({ mergeParams: true });
 
-router.get('/', async (req, res) => {
+router
+  .route('/')
+  .get(async (req, res) => {
   try {
     const list = await Products.find()
     res.status(200).send(list)
