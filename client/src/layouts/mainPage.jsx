@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../api";
+// import api from "../api";
 import SearchForm from "../components/searchForm";
 import BasketIcons from "../components/basketIcons";
 import _ from "lodash";
@@ -8,10 +8,14 @@ import { Route, Switch, Link, useHistory } from "react-router-dom";
 import ProductPage from "../components/productPage";
 import Products from "../components/products";
 import Basket from "../components/basket";
+import { useCategory } from "../hooks/useCategory";
+import { useProducts } from "../hooks/useProducts"
 
 function MainPage() {
-  const [products, setProducts] = useState();
-  const [category, setCategory] = useState();
+  const { category } = useCategory();
+  const { products } = useProducts();
+  // const [products, setProducts] = useState();
+  // const [category, setCategory] = useState();
   const [selectedProf, setSelectedProf] = useState(); // selectedProf-выбранная категория
   const [searchProduct, setSearchProduct] = useState(""); // поиск продукта
   const [search, setSearch] = useState(""); //заносится объект поиска продукта
@@ -21,16 +25,15 @@ function MainPage() {
   const pageSize = 5; // кол-во товара на странице
   const history = useHistory();
   let foundProduct = ""; // найденные продукты
-  useEffect(() => {
-    api.products.fetchAll().then((data) => setProducts(data));
-  }, []);
-  useEffect(() => {
-    api.category.fetchAll().then((data) => setCategory(data));
-  }, []);
+  // useEffect(() => {
+  //   api.products.fetchAll().then((data) => setProducts(data));
+  // }, []);
+  // useEffect(() => {
+  //   api.category.fetchAll().then((data) => setCategory(data));
+  // }, []);
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedProf]);
-
   const handleItemSelect = (item) => {
     //выбираем категорию>
     setSearch("");
@@ -128,7 +131,7 @@ function MainPage() {
 
   if (products) {
     const filteredProducts = selectedProf
-      ? products.filter((item) => item.category === selectedProf)
+      ? products.filter((item) => item.category === selectedProf._id)
       : products;
     const count = search === "" ? filteredProducts.length : foundProduct.length;
     const sortProducts = _.orderBy(

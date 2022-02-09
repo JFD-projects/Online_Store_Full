@@ -1,6 +1,6 @@
 import React from "react";
-import TextField from "./textField";
-import SelectField from "./selectField";
+import TextField from "../textField";
+import SelectField from "../selectField";
 
 const AdminForm = ({ category, onChange, data, addNewProduct }) => {
   const handleSubmit = (e) => {

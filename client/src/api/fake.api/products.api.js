@@ -1,7 +1,7 @@
 import {category} from "./category.api"
 const products = [
   {
-    _id: "101",
+    _id: "10101",
     name: "Apple iPhone12",
     category: category.phone,
     cost: 50000,
@@ -9,7 +9,7 @@ const products = [
     imageProduct: "https://kirov-klg.amazingame.ru/upload/iblock/0ea/catcover1.jpg",
   },
   {
-    _id: "102",
+    _id: "10102",
     name: "Ноутбук Apple MacBook",
     category: category.laptop ,
     cost: 90000,
@@ -17,7 +17,7 @@ const products = [
     imageProduct: "https://i.ebayimg.com/00/s/MTAwMFgxNDgz/z/TAsAAOSw8DJZ9LHX/$_57.JPG?set_id=8800005007",
   },
   {
-    _id: "103",
+    _id: "10103",
     name: "Холодильник LG",
     category: category.fridge,
     cost: 34000,
@@ -25,7 +25,7 @@ const products = [
     imageProduct: "https://items.s1.citilink.ru/1152141_v01_b.jpg",
   },
   {
-    _id: "104",
+    _id: "10104",
     name: "Redmi Note 10",
     category: category.phone,
     cost: 15000,
@@ -33,7 +33,7 @@ const products = [
     imageProduct: "https://items.s1.citilink.ru/1490107_v01_m.jpg",
   },
   {
-    _id: "105",
+    _id: "10105",
     name: "Телевизор Samsung",
     category: category.tv,
     cost: 54000,
@@ -41,7 +41,7 @@ const products = [
     imageProduct: "https://items.s1.citilink.ru/1517222_v01_b.jpg",
   },
   {
-    _id: "106",
+    _id: "10106",
     name: "Samsung A52",
     category: category.phone,
     cost: 25000,
@@ -49,7 +49,7 @@ const products = [
     imageProduct: "https://items.s1.citilink.ru/1494810_v01_b.jpg",
   },
   {
-    _id: "107",
+    _id: "10107",
     name: "Ноутбук ACER",
     category: category.laptop ,
     cost: 50000,
@@ -57,7 +57,7 @@ const products = [
     imageProduct: "https://items.s1.citilink.ru/1200863_v01_b.jpg",
   },
   {
-    _id: "108",
+    _id: "10108",
     name: "Телевизор LG",
     category: category.tv,
     cost: 48000,
@@ -65,7 +65,7 @@ const products = [
     imageProduct: "https://items.s1.citilink.ru/1092279_v01_b.jpg",
   },
   {
-    _id: "109",
+    _id: "10109",
     name: "Холодильник IRBIS",
     category: category.fridge,
     cost: 30000,
@@ -73,7 +73,7 @@ const products = [
     imageProduct: "https://items.s1.citilink.ru/1530145_v01_b.jpg",
   },
   {
-    _id: "110",
+    _id: "10110",
     name: "Телевизор DEXP",
     category: category.tv,
     cost: 25000,
@@ -81,7 +81,7 @@ const products = [
     imageProduct: "https://items.s1.citilink.ru/1494011_v01_b.jpg",
   },
   {
-    _id: "111",
+    _id: "10111",
     name: "Холодильник KRAFT",
     category: category.fridge,
     cost: 72000,
@@ -89,7 +89,7 @@ const products = [
     imageProduct: "https://items.s1.citilink.ru/480677_v01_b.jpg",
   },
   {
-    _id: "112",
+    _id: "10112",
     name: "Ноутбук ASUS",
     category: category.laptop,
     cost: 60000,

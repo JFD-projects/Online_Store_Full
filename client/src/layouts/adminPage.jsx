@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../api";
-import AdminTable from "../components/adminTable";
-import AdminForm from "../components/adminForm";
+import AdminTable from "../components/adminPageComponent/adminTable";
+import AdminForm from "../components/adminPageComponent/adminForm";
 
 const AdminPage = () => {
   const cc = {
