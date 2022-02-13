@@ -12,7 +12,8 @@ const SelectField = ({
     // const handleChange = ({ target }) => {
     //     onChange({ name: target.name, value: target.value });
     // };
-    const getInputClasses = () => {
+    if(options){
+       const getInputClasses = () => {
         return "form-select" + (error ? " is-invalid" : "");
     };
     const optionsArray =
@@ -40,14 +41,18 @@ const SelectField = ({
                 </option>
                 {optionsArray &&
                     optionsArray.map((option) => (
-                        <option value={option.value} key={option.value}>
+                        <option value={option._id} key={option._id}>
                             {option.name}
                         </option>
                     ))}
             </select>
             {error && <div className="invalid-feedback">{error}</div>}
         </div>
-    );
+    ); 
+    } else {
+        return (<h5>Load</h5>)
+    }
+    
 };
 SelectField.propTypes = {
     defaultOption: PropTypes.string,

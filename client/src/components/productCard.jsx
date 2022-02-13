@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-const ProductCard = ({imageProduct,name,countProduct,cost,id}) => {
+const ProductCard = ({imageProduct,name,countProduct,cost,id, onChangeProduct}) => {
     return (
         <div className="card flex-grow-1 " >
             <div className="row g-100 ">
@@ -21,7 +21,7 @@ const ProductCard = ({imageProduct,name,countProduct,cost,id}) => {
                 </div>
                 <div className="col-md-3 d-flex justify-content-center align-items-center ">
                     <Link to = {`/products/${id}`}>
-                        <button type="button" className="btn btn-primary">Открыть карточку</button>
+                        <button type="button" className="btn btn-primary" onClick={()=>onChangeProduct(id)}>Открыть карточку</button>
                     </Link>
                          
                      

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import api from "../api";
 import SearchForm from "../components/searchForm";
 import BasketIcons from "../components/basketIcons";
 import _ from "lodash";
@@ -8,29 +7,23 @@ import { Route, Switch, Link, useHistory } from "react-router-dom";
 import ProductPage from "../components/productPage";
 import Products from "../components/products";
 import Basket from "../components/basket";
-import { useCategory } from "../hooks/useCategory";
 import { useProducts } from "../hooks/useProducts"
+import { useSelector } from "react-redux";
+import { getCategory } from "../store/category";
 
 function MainPage() {
-  const { category } = useCategory();
+  const category = useSelector(getCategory())
   const { products } = useProducts();
-  // const [products, setProducts] = useState();
-  // const [category, setCategory] = useState();
   const [selectedProf, setSelectedProf] = useState(); // selectedProf-выбранная категория
   const [searchProduct, setSearchProduct] = useState(""); // поиск продукта
   const [search, setSearch] = useState(""); //заносится объект поиска продукта
   const [sortBy, setSortBy] = useState({ iter: "", order: "asc" }); //сортировка по цене
   const [currentPage, setCurrentPage] = useState(1); // выбранная страница
   const [basket, setBasket] = useState([]); //продукты в корзине
+  const [product, setProduct] = useState();
   const pageSize = 5; // кол-во товара на странице
   const history = useHistory();
   let foundProduct = ""; // найденные продукты
-  // useEffect(() => {
-  //   api.products.fetchAll().then((data) => setProducts(data));
-  // }, []);
-  // useEffect(() => {
-  //   api.category.fetchAll().then((data) => setCategory(data));
-  // }, []);
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedProf]);
@@ -82,8 +75,11 @@ function MainPage() {
       return <i className="bi bi-arrow-down-circle"></i>;
     }
   };
+  
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
+    console.log(currentPage)
+    console.log(pageIndex);
   };
   const putInTheBasket = (item) => {
     // положить в корзину
@@ -128,6 +124,10 @@ function MainPage() {
   const basketCount = basket.reduce((acc, item) => {
     return acc + item.value;
   }, 0);
+  const handleChangeProduct = (id) => {
+    // выбор страницы товара
+    setProduct(products.find((i)=>i._id===id));
+  }
 
   if (products) {
     const filteredProducts = selectedProf
@@ -170,7 +170,7 @@ function MainPage() {
           <Route
             path="/products/:productId"
             render={(props) => (
-              <ProductPage putInTheBasket={putInTheBasket} {...props} />
+              <ProductPage putInTheBasket={putInTheBasket} product= {product} {...props} />
             )}
           />
           <Route
@@ -189,6 +189,7 @@ function MainPage() {
                 pageSize={pageSize}
                 currentPage={currentPage}
                 handlePageChange={handlePageChange}
+                onChangeProduct={handleChangeProduct}
                 {...props}
               />
             )}

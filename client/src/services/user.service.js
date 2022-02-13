@@ -8,10 +8,16 @@ const userService = {
         const { data } = await httpService.get(userEndpoint);
         return data;
     },
+    // create: async (payload) => {
+    //     const { data } = await httpService.put(
+    //         userEndpoint + payload._id,
+    //         payload
+    //     );
+    //     return data;
+    // },
     create: async (payload) => {
-        const { data } = await httpService.put(
-            userEndpoint + payload._id,
-            payload
+        const { data } = await httpService.post(
+            userEndpoint, payload
         );
         return data;
     },
@@ -20,13 +26,13 @@ const userService = {
             userEndpoint + localStorageService.getUserId()
         );
         return data;
-    },
-    update: async (payload) => {
-        const { data } = await httpService.patch(
-            userEndpoint + localStorageService.getUserId(),
-            payload
-        );
-        return data;
     }
+    // update: async (payload) => {
+    //     const { data } = await httpService.patch(
+    //         userEndpoint + localStorageService.getUserId(),
+    //         payload
+    //     );
+    //     return data;
+    // }
 };
 export default userService;

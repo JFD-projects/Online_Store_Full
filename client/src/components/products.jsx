@@ -16,6 +16,7 @@ const Products = ({
   pageSize,
   currentPage,
   handlePageChange,
+  onChangeProduct
 }) => {
   return (
     <>
@@ -30,6 +31,7 @@ const Products = ({
           products={search === "" ? productsCrop : search}
           onSort={handleSort}
           iconsSort={iconsSort}
+          onChangeProduct={onChangeProduct}
         />
       </div>
       <div className="d-flex justify-content-center">

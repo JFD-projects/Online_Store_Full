@@ -1,30 +1,24 @@
-import React, { useState, useEffect } from "react";
-import api from "../api";
+import React, { useState } from "react";
 import AdminTable from "../components/adminPageComponent/adminTable";
 import AdminForm from "../components/adminPageComponent/adminForm";
+import { useProducts } from "../hooks/useProducts";
+import { useSelector } from "react-redux";
+import { getCategory } from "../store/category";
 
 const AdminPage = () => {
-  const cc = {
-    _id: "",
+  const clearData = {
     name: "",
     category: "",
     cost: "",
     countProduct: "",
     imageProduct: "",
   };
-  const [products, setProducts] = useState();
-  const [category, setCategory] = useState();
-  const [data, setData] = useState(cc);
-  useEffect(() => {
-    api.products.fetchAll().then((data) => setProducts(data));
-  }, []);
-  useEffect(() => {
-    api.category.fetchAll().then((data) => setCategory(data));
-  }, []);
+  const category = useSelector(getCategory())
+  const { products, removeProduct, createProduct, updateProduct } = useProducts();
+  const [data, setData] = useState(clearData);
   const adminProductDelete = (productId) => {
     // удаление продукта админ
-    const newProducts = products.filter((c) => c._id !== productId);
-    setProducts(newProducts);
+    removeProduct(productId);
   };
   const adminProductEdit = (productId) => {
     // изменение продукта админ
@@ -40,7 +34,6 @@ const AdminPage = () => {
   const addNewProduct = () => {
     // добавление нового продукта с администратора
     if (
-      data._id &&
       data.category &&
       data.name &&
       data.cost &&
@@ -48,27 +41,15 @@ const AdminPage = () => {
     ) {
       if (
         !products.some((c) => {
-          return c._id === data._id;
+          return c.name === data.name;
         })
       ) {
-        const newData = { ...data, category: category[data.category] };
-        setProducts([...products, newData]);
-        setData(cc);
+        createProduct(data);
+        setData(clearData);
       } else {
-        const productIndex = products.findIndex((item) => {
-          return item._id === data._id;
-        });
-        const newProduct = products;
-        if (typeof data.category == "string") {
-          newProduct[productIndex] = {
-            ...data,
-            category: category[data.category],
-          };
-        } else {
-          newProduct[productIndex] = data;
-        }
-        setProducts(newProduct);
-        setData(cc);
+        updateProduct(data);
+        setData(clearData);
+        console.log("hi")
       }
     }
   };

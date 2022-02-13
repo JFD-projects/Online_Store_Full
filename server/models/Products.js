@@ -2,10 +2,10 @@ const {Schema, model} = require('mongoose')
 
 const schema = new Schema({
   name: {type: String},
-  category: { type: Schema.Types.ObjectId, ref: 'Category' },
+  category: {type: String},
   cost: Number,
   countProduct: Number,
-  image: String,
+  imageProduct: String,
 }, {
   timestamps: true
 })

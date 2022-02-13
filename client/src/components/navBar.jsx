@@ -8,11 +8,16 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-light" style={{ backgroundColor: "#e3f2fd" }}>
       <ul className="nav">
-        <li className="nav-item">
+        <div className="d-flex flex-row align-items-center">
           <Link className="nav-link active" aria-current="page" to="/products">
             Главная
           </Link>
-        </li>
+          <Link className="nav-link active" aria-current="page" to="/initialize">
+            Инициализация
+          </Link>
+
+        </div>
+        
       </ul>
       <h4 className="m-2">Online store </h4>
       <div className="d-flex flex-row align-items-center">

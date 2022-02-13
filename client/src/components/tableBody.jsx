@@ -2,7 +2,7 @@ import React from "react";
 import ProductCard from "./productCard";
 import SortCost from "./sortCost";
 
-const TableBody = ({ products, onSort, iconsSort }) => {
+const TableBody = ({ products, onSort, iconsSort, onChangeProduct }) => {
   
   
   return (
@@ -17,6 +17,7 @@ const TableBody = ({ products, onSort, iconsSort }) => {
               imageProduct={item.imageProduct}
               countProduct={item.countProduct}
               id={item._id}
+              onChangeProduct={onChangeProduct}
             />
           </li>
         ))}

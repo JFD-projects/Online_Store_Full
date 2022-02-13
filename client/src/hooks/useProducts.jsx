@@ -13,6 +13,7 @@ export const ProductsProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
+    
     useEffect(() => {
         if (error !== null) {
             toast(error);
@@ -34,13 +35,49 @@ export const ProductsProvider = ({ children }) => {
             setProducts(content);
             setLoading(false);
         } catch (error) {
+            // errorCatcher(error);
+        }
+    }
+
+    async function removeProduct(id) {
+        try {
+            const { content } = await productsService.removeProducts(id);
+            if (content === "ok") {
+                setProducts((prevState) =>
+                    prevState.filter((c) => c._id !== id)
+                );
+            }
+        } catch (error) {
+            errorCatcher(error);
+        }
+    }
+
+    async function createProduct(data) {
+        try {
+            const { content } = await productsService.createProducts(data);
+            setProducts((prevState) => [...prevState, content]);
+        } catch (error) {
+            errorCatcher(error);
+        }
+    }
+    async function updateProduct(data) {
+        try {
+            const { content } = await productsService.updateProducts(data);
+            const newProducts = products;
+            console.log(content);
+            const elementIndex = products.findIndex((el)=> el._id = content._id);
+            console.log(elementIndex);
+            newProducts[elementIndex] = content;
+            setProducts(newProducts);
+
+        } catch (error) {
             errorCatcher(error);
         }
     }
 
     return (
         <ProductsContext.Provider
-            value={{ isLoading, products }}
+            value={{ isLoading, products, removeProduct, createProduct, updateProduct }}
         >
             {children}
         </ProductsContext.Provider>

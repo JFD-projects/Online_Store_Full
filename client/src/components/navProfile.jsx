@@ -7,7 +7,8 @@ const NavProfile = () => {
     const toggleMenu = () => {
         setOpen((prevState) => !prevState);
     };
-    return (
+    if(currentUser){
+       return (
         <div className="dropdown" onClick={toggleMenu}>
             <div className="btn dropdown-toggle d-flex align-items-center">
                 <div className="me-2">{currentUser.name}</div>
@@ -30,7 +31,9 @@ const NavProfile = () => {
                 </Link>
             </div>
         </div>
-    );
+    ); 
+    } else {return <p>Loading</p>}
+    
 };
 
 export default NavProfile;

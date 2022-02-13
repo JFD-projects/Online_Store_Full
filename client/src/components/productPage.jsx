@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from "react";
-import api from "../api";
+import React from "react";
 
-const ProductPage = ({ match, putInTheBasket }) => {
-  const id = match.params.productId;
-  const [product, setProduct] = useState();
-  useEffect(() => {
-    api.products.getById(id).then((data) => setProduct(data));
-  });
+const ProductPage = ({ match, putInTheBasket, product }) => {
+
   if (product) {
     return (
       <div className="container mt-5 shadow">
@@ -28,12 +23,13 @@ const ProductPage = ({ match, putInTheBasket }) => {
           </div>
           <div className="col-md-2 p-2 d-flex  justify-content-center align-content-between">
             <div className="d-flex align-items-center">
-              <button type="button" className="btn btn-primary" onClick={()=>{putInTheBasket(product)}}>
+            <div className="d-flex flex-column">
+              <button type="button" className="btn btn-primary m-3" onClick={()=>{putInTheBasket(product)}}>
                 Купить
               </button>
-            </div>
-            <div className="d-flex align-items-end">
               <h5>id: {product._id} </h5>
+            </div>
+              
             </div>
           </div>
         </div>

@@ -4,154 +4,119 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import userService from "../services/user.service";
 import localStorageService, {
-    setTokens
+  setTokens, getUserId
 } from "../services/localStorage.service";
 import { useHistory } from "react-router-dom";
+import config from "../config.json";
 
 export const httpAuth = axios.create({
-    baseURL: "https://identitytoolkit.googleapis.com/v1/",
-    params: {
-        key: process.env.REACT_APP_FIREBASE_KEY
-    }
+  baseURL: config.apiEndpoint + "/auth/",
+  params: {
+    key: process.env.REACT_APP_FIREBASE_KEY,
+  },
 });
 const AuthContext = React.createContext();
 
 export const useAuth = () => {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 };
 
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setUser] = useState();
-    const [error, setError] = useState(null);
-    const [isLoading, setLoading] = useState(true);
-    const history = useHistory();
+  const [currentUser, setUser] = useState();
+  const [error, setError] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+  const history = useHistory();
 
-    async function logIn({ email, password }) {
-        try {
-            const { data } = await httpAuth.post(
-                `accounts:signInWithPassword`,
-                {
-                    email,
-                    password,
-                    returnSecureToken: true
-                }
-            );
-            setTokens(data);
-            await getUserData();
-        } catch (error) {
-            errorCatcher(error);
-            const { code, message } = error.response.data.error;
-            console.log(code, message);
-            if (code === 400) {
-                switch (message) {
-                    case "INVALID_PASSWORD":
-                        throw new Error("Email или пароль введены некорректно");
+  async function logIn({ email, password }) {
+    try {
+      const { data } = await httpAuth.post(
+        `signInWithPassword`,
+        {
+          email,
+          password,
+          returnSecureToken: true,
+        }
+      );
+      setTokens(data);
+      await getUserData(data);
+    } catch (error) {
+      errorCatcher(error);
+      const { code, message } = error.response.data.error;
+      console.log(code, message);
+      if (code === 400) {
+        switch (message) {
+          case "INVALID_PASSWORD":
+            throw new Error("Email или пароль введены некорректно");
 
-                    default:
-                        throw new Error(
-                            "Слишком много попыток входа. Попробуйте позднее"
-                        );
-                }
-            }
+          default:
+            throw new Error("Слишком много попыток входа. Попробуйте позднее");
         }
+      }
     }
-    function logOut() {
-        localStorageService.removeAuthData();
-        setUser(null);
-        history.push("/");
-    }
-    async function updateUserData(data) {
-        const { content } = await userService.update(data);
-        setUser(content);
-        try {
-            const { content } = await userService.update(data);
-            setUser(content);
-        } catch (error) {
-            errorCatcher(error);
+  }
+  function logOut() {
+    localStorageService.removeAuthData();
+    setUser(null);
+    history.push("/");
+  }
+  async function signUp(payload) {
+    try {
+      const { data } = await httpAuth.post(`signUp`, payload);
+      setTokens(data);
+      await getUserData(data)
+    } catch (error) {
+      errorCatcher(error);
+      const { code, message } = error.response.data.error;
+      console.log(code, message);
+      if (code === 400) {
+        if (message === "EMAIL_EXISTS") {
+          const errorObject = {
+            email: "Пользователь с таким Email уже существует",
+          };
+          throw errorObject;
         }
+      }
     }
-    async function signUp({ email, password, ...rest }) {
-        try {
-            const { data } = await httpAuth.post(`accounts:signUp`, {
-                email,
-                password,
-                returnSecureToken: true
-            });
-            setTokens(data);
-            await createUser({
-                _id: data.localId,
-                email,
-                image: `https://avatars.dicebear.com/api/avataaars/${(
-                    Math.random() + 1
-                )
-                    .toString(36)
-                    .substring(7)}.svg`,
-                ...rest
-            });
-        } catch (error) {
-            errorCatcher(error);
-            const { code, message } = error.response.data.error;
-            console.log(code, message);
-            if (code === 400) {
-                if (message === "EMAIL_EXISTS") {
-                    const errorObject = {
-                        email: "Пользователь с таким Email уже существует"
-                    };
-                    throw errorObject;
-                }
-            }
-        }
+  }
+  function errorCatcher(error) {
+    console.log(error);
+    // const { message } = error.response.data;
+    // setError(message);
+  }
+  async function getUserData(data) {
+    try {
+        const { content } = await userService.get();
+        if(data){setUser(content.find((c)=>c._id===data.userId));}
+        else{setUser(content.find((c)=>c._id===getUserId()));}
+      } catch (error) {
+        errorCatcher(error);
+      }
+  }
+  useEffect(() => {
+    if (localStorageService.getAccessToken()) {
+      getUserData();
+    } else {
+      setLoading(false);
     }
-    async function createUser(data) {
-        try {
-            const { content } = await userService.create(data);
-            console.log(content);
-            setUser(content);
-        } catch (error) {
-            errorCatcher(error);
-        }
+  }, []);
+  useEffect(() => {
+    if (error !== null) {
+      toast(error);
+      setError(null);
     }
-    function errorCatcher(error) {
-        const { message } = error.response.data;
-        setError(message);
-    }
-    async function getUserData() {
-        try {
-            const { content } = await userService.getCurrentUser();
-            setUser(content);
-        } catch (error) {
-            errorCatcher(error);
-        } finally {
-            setLoading(false);
-        }
-    }
-    useEffect(() => {
-        if (localStorageService.getAccessToken()) {
-            getUserData();
-        } else {
-            setLoading(false);
-        }
-    }, []);
-    useEffect(() => {
-        if (error !== null) {
-            toast(error);
-            setError(null);
-        }
-    }, [error]);
-    return (
-        <AuthContext.Provider
-            value={{ signUp, logIn, currentUser, logOut, updateUserData }}
-        >
-            {!isLoading ? children : "Loading..."}
-        </AuthContext.Provider>
-    );
+  }, [error]);
+  return (
+    <AuthContext.Provider value={{ signUp, logIn, currentUser, logOut }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 AuthProvider.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ])
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 export default AuthProvider;

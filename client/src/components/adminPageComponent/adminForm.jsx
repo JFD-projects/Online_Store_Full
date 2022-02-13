@@ -11,7 +11,6 @@ const AdminForm = ({ category, onChange, data, addNewProduct }) => {
     <div className="d-flex flex-column p-2 m-2 shadow">
       <h6>Блок для добавления или редактирования товара</h6>
       <form onSubmit={handleSubmit}>
-        <TextField label="id" name="_id" value={data._id} onChange={onChange} />
         <TextField
           label="Наименование"
           name="name"
