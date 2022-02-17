@@ -64,11 +64,9 @@ export const ProductsProvider = ({ children }) => {
         try {
             const { content } = await productsService.updateProducts(data);
             const newProducts = products;
-            console.log(content);
             const elementIndex = products.findIndex((el)=> el._id = content._id);
-            console.log(elementIndex);
             newProducts[elementIndex] = content;
-            setProducts(newProducts);
+            setProducts([...newProducts]);
 
         } catch (error) {
             errorCatcher(error);
